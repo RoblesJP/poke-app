@@ -5,10 +5,7 @@
     v-model="searchQuery"
     ></search-bar>
 
-    <pokemon-card
-    v-if="pokemon"
-    :imageURL="pokemon.sprites.front_default" 
-    ></pokemon-card>
+    
 
 </template>
 
@@ -16,34 +13,45 @@
 import SearchBar from '../components/SearchBar.vue';
 import PokemonCard from '@/components/PokemonCard.vue';
 import { ref, onMounted, watch } from 'vue';
+import axios from 'axios'
 
 export default {
     components: {
         SearchBar,
-        PokemonCard
+        
     },
 
     setup() {
         const searchQuery = ref("");
-        const pokemon = ref(null);
+        const pokemonNames = ref([]);
+        
 
-
-        const fetchPokemon = async () => {
-            await fetch("https://pokeapi.co/api/v2/pokemon/" + searchQuery.value)
-            .then(res => res.json())
-            .then(data => pokemon.value = data);
+        const getPokemonNames = (url) => {
+            axios
+                .get(url)
+                .then((res) => {
+                    res.data.results.forEach((pokemon) => {
+                        pokemonNames.value.push(pokemon);
+                    })
+                    if (res.data.next != null) {
+                        return getPokemonNames(res.data.next);
+                    }
+                });
         }
 
-        onMounted(fetchPokemon);
+        const getPokemonByName = (name) => {
+
+        }
         
-        watch(searchQuery, fetchPokemon);
+        onMounted(() => {
+            getPokemonNames("https://pokeapi.co/api/v2/pokemon/");
+        })
 
         return {
-            pokemon,
+            pokemonNames,
             searchQuery
         }
     }
-
     
 }
 </script>
