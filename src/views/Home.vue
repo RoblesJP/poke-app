@@ -5,7 +5,10 @@
     v-model="searchQuery"
     ></search-bar>
 
-    
+    <pokemon-card
+    v-if="pokemon"
+    :imageURL="pokemon.sprites.front_default"
+    ></pokemon-card>
 
 </template>
 
@@ -18,12 +21,14 @@ import axios from 'axios'
 export default {
     components: {
         SearchBar,
-        
+        PokemonCard
     },
 
     setup() {
+        let url = "https://pokeapi.co/api/v2/pokemon/";
         const searchQuery = ref("");
         const pokemonNames = ref([]);
+        const pokemon = ref(null);
         
 
         const getPokemonNames = (url) => {
@@ -31,7 +36,7 @@ export default {
                 .get(url)
                 .then((res) => {
                     res.data.results.forEach((pokemon) => {
-                        pokemonNames.value.push(pokemon);
+                        pokemonNames.value.push(pokemon.name);
                     })
                     if (res.data.next != null) {
                         return getPokemonNames(res.data.next);
@@ -39,17 +44,27 @@ export default {
                 });
         }
 
-        const getPokemonByName = (name) => {
-
+        const getPokemonByName = () => {
+            let name = searchQuery.value;
+            if (name != null && name !== "" && pokemonNames.value.includes(name)) {
+                axios
+                .get(url + name)
+                .then(res => pokemon.value = res.data);
+                console.log("request for " + name);
+            }
+            
         }
         
         onMounted(() => {
-            getPokemonNames("https://pokeapi.co/api/v2/pokemon/");
-        })
+            getPokemonNames(url);
+        });
+
+        watch(searchQuery, getPokemonByName);
 
         return {
             pokemonNames,
-            searchQuery
+            searchQuery,
+            pokemon
         }
     }
     
