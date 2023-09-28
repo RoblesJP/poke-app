@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import SearchBar from "../components/SearchBar.vue";
+import SearchBar from "@/components/SearchBar.vue";
 import PokemonCard from "@/components/PokemonCard.vue";
 import { ref, onBeforeMount, watch } from "vue";
 import axios from "axios";

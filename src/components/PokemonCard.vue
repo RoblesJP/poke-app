@@ -16,16 +16,15 @@
     <section class="stats-section">
       <h2>Stats</h2>
       <div class="stats-section_stats section-content">
-        <span v-for="stat in stats" v-bind:key="stat.name">
-          {{ stat.stat.name }}: {{ stat.base_stat }}
-        </span>
+        <stats-hexagon :stats="stats" :key="stats"></stats-hexagon>
       </div>
     </section>
   </article>
 </template>
 
 <script setup>
-import { defineProps, onMounted } from "vue";
+import StatsHexagon from "@/components/StatsHexagon.vue";
+import { defineProps, onMounted, watchEffect } from "vue";
 
 const props = defineProps({
   name: String,
@@ -38,9 +37,11 @@ const props = defineProps({
 onMounted(() => {
   console.log(props.stats);
 });
+
+watchEffect(props.stats);
 </script>
 
-<style>
+<style scoped>
 /* CARD */
 .card {
   width: 300px;
@@ -96,5 +97,6 @@ section .section-content {
   grid-template-columns: 1fr;
   text-align: left;
   text-transform: uppercase;
+  margin-top: 0.5rem;
 }
 </style>
