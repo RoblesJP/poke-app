@@ -16,7 +16,7 @@ const props = defineProps({
 });
 </script>
 
-<style>
+<style scoped>
 form {
   margin-block: 2rem;
 }
