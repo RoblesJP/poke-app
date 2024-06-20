@@ -1,5 +1,5 @@
 <template>
-  <article class="card">
+  <article class="card pokemon_card">
     <header>
       <img :src="sprite" class="sprite" />
       <h1>{{ name }}</h1>
@@ -42,13 +42,6 @@ watchEffect(props.stats);
 </script>
 
 <style scoped>
-/* CARD */
-.card {
-  width: 300px;
-  padding: 0.5rem;
-  border: 1px solid black;
-}
-
 .card section {
   margin-top: 0.5rem;
 }
@@ -63,19 +56,6 @@ header {
   display: grid;
   grid-template-columns: 1fr 3fr;
   align-items: center;
-}
-
-/* SECTION */
-section h2 {
-  background-color: lightsalmon;
-}
-
-header h1 {
-  text-transform: uppercase;
-}
-
-section .section-content {
-  padding: 0.5rem;
 }
 
 /* TYPES SECTION */
