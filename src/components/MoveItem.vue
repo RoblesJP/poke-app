@@ -37,7 +37,7 @@ const props = defineProps({
   url: String,
 });
 
-let move = ref(null);
+const move = ref(null);
 
 onBeforeMount(() => {
   console.log(props.url);

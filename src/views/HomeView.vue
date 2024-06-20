@@ -22,9 +22,9 @@ import PokemonMoves from "@/components/PokemonMoves.vue";
 import { ref, onBeforeMount, watch } from "vue";
 import axios from "axios";
 
-let url = "https://pokeapi.co/api/v2/pokemon/";
+const url = "https://pokeapi.co/api/v2/pokemon/";
 const searchQuery = ref("");
-let pokemonNames = [];
+const pokemonNames = [];
 const pokemon = ref(null);
 
 const getPokemonNames = (url) => {
@@ -39,7 +39,7 @@ const getPokemonNames = (url) => {
 };
 
 const getPokemonByName = () => {
-  let name = searchQuery.value.toLowerCase();
+  const name = searchQuery.value.toLowerCase();
   if (name != null && name !== "" && pokemonNames.includes(name)) {
     axios.get(url + name).then((res) => (pokemon.value = res.data));
     console.log("request for " + name);

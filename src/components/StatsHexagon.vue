@@ -13,10 +13,10 @@ let ctx;
 const a = (2 * Math.PI) / 6;
 const r = 120;
 let letterMMeasurements;
-let maxStatValue = 255;
+const maxStatValue = 255;
 
 onMounted(() => {
-  let canvas = document.getElementById("canvas");
+  const canvas = document.getElementById("canvas");
   ctx = canvas.getContext("2d");
 
   letterMMeasurements = ctx.measureText("M");
@@ -48,7 +48,7 @@ onMounted(() => {
 function drawOuterHexagon(x, y) {
   ctx.beginPath();
 
-  Object.entries(props.stats).forEach(([key, value], index) => {
+  Object.entries(props.stats).forEach(([, value], index) => {
     ctx.lineTo(x + r * Math.cos(a * index), y + r * Math.sin(a * index));
 
     drawStatTitles(
@@ -67,7 +67,7 @@ function drawOuterHexagon(x, y) {
 }
 
 function drawStatTitles(x, y, statName) {
-  let words = statName.split("-");
+  const words = statName.split("-");
 
   words.forEach((word, index) => {
     ctx.fillText(word.toUpperCase(), x, y + index * letterMMeasurements.width);
@@ -76,7 +76,7 @@ function drawStatTitles(x, y, statName) {
 
 function drawOuterHexagonLines(x, y) {
   ctx.lineWidth = 0.1;
-  Object.entries(props.stats).forEach(([key, value], index) => {
+  Object.entries(props.stats).forEach(([,], index) => {
     ctx.beginPath();
     ctx.moveTo(x, y);
     ctx.lineTo(x + r * Math.cos(a * index), y + r * Math.sin(a * index));
@@ -87,9 +87,11 @@ function drawOuterHexagonLines(x, y) {
 }
 
 function drawStatsHexagon(x, y) {
+  console.log(x);
+  console.log(y);
   ctx.beginPath();
 
-  Object.entries(props.stats).forEach(([key, value], index) => {
+  Object.entries(props.stats).forEach(([, value], index) => {
     ctx.lineTo(
       x + (value.base_stat / maxStatValue) * r * Math.cos(a * index),
       y + (value.base_stat / maxStatValue) * r * Math.sin(a * index)
