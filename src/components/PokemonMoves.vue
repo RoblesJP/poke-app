@@ -3,21 +3,21 @@
     <section class="moves-section">
       <h2>Moves</h2>
       <div class="accordion accordion-flush" id="movesAccordion">
-        <move
+        <move-item
           v-for="move in moves"
           :url="move.move.url"
           :key="move.move.name"
-        ></move>
+        ></move-item>
       </div>
     </section>
   </article>
 </template>
 
 <script setup>
-import { defineProps, onBeforeMount } from "vue";
-import Move from "@/components/Move.vue";
+import { defineProps } from "vue";
+import MoveItem from "@/components/MoveItem.vue";
 
-const props = defineProps({
+defineProps({
   moves: Object,
 });
 </script>
