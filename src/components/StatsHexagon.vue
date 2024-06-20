@@ -11,17 +11,35 @@ const props = defineProps({
 
 let ctx;
 const a = (2 * Math.PI) / 6;
-const r = 60;
+const r = 120;
 let letterMMeasurements;
 let maxStatValue = 255;
 
 onMounted(() => {
   let canvas = document.getElementById("canvas");
   ctx = canvas.getContext("2d");
+
+  letterMMeasurements = ctx.measureText("M");
+
+  // Get the DPR and size of the canvas
+  const dpr = window.devicePixelRatio;
+  const rect = canvas.getBoundingClientRect();
+
+  // Set the "actual" size of the canvas
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+
+  // Scale the context to ensure correct drawing operations
+  ctx.scale(dpr, dpr);
+
+  // Set the "drawn" size of the canvas
+  canvas.style.width = `${rect.width}px`;
+  canvas.style.height = `${rect.height}px`;
+
   ctx.textAlign = "center";
   ctx.font = "12px Lato";
   ctx.textBaseline = "middle";
-  letterMMeasurements = ctx.measureText("M");
+
   drawOuterHexagon(canvas.width / 2, canvas.height / 2);
   drawStatsHexagon(canvas.width / 2, canvas.height / 2);
   drawOuterHexagonLines(canvas.width / 2, canvas.height / 2);
@@ -76,12 +94,11 @@ function drawStatsHexagon(x, y) {
       x + (value.base_stat / maxStatValue) * r * Math.cos(a * index),
       y + (value.base_stat / maxStatValue) * r * Math.sin(a * index)
     );
-
-    ctx.fillStyle = "lightsalmon";
-    ctx.fill();
   });
 
   ctx.closePath();
+  ctx.fillStyle = "lightsalmon";
+  ctx.fill();
   ctx.stroke();
 }
 </script>

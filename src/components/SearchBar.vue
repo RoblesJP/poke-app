@@ -22,7 +22,8 @@ form {
 }
 
 input {
-  min-width: 500px;
+  width: 100%;
+  max-width: 500px;
   padding: 0.5rem;
   font-size: 1.4rem;
 }

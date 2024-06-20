@@ -1,7 +1,9 @@
 <template>
   <search-bar v-model="searchQuery"></search-bar>
 
-  <div class="pokemons">
+  <div class="pokemon">
+    <pokemon-moves v-if="pokemon" :moves="pokemon.moves"></pokemon-moves>
+
     <pokemon-card
       v-if="pokemon"
       :name="pokemon.name"
@@ -16,6 +18,7 @@
 <script setup>
 import SearchBar from "@/components/SearchBar.vue";
 import PokemonCard from "@/components/PokemonCard.vue";
+import PokemonMoves from "@/components/PokemonMoves.vue";
 import { ref, onBeforeMount, watch } from "vue";
 import axios from "axios";
 
@@ -51,8 +54,41 @@ watch(searchQuery, getPokemonByName);
 </script>
 
 <style>
-.pokemons {
-  display: flex;
-  justify-content: center;
+.pokemon {
+  display: grid;
+  justify-items: center;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+/* CARD */
+.card {
+  min-width: 300px;
+  max-width: 500px;
+  padding: 0.5rem;
+  border: 1px solid black;
+  width: 100%;
+  max-height: 530px;
+}
+
+/* SECTION */
+section h2 {
+  background-color: lightsalmon;
+  font-size: 1.7rem;
+}
+
+header h1 {
+  text-transform: uppercase;
+  font-size: 2.5rem;
+}
+
+section .section-content {
+  padding: 0.5rem;
+}
+
+@media (max-width: 1500px) {
+  .pokemon {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
